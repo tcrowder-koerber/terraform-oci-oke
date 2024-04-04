@@ -84,9 +84,9 @@ module "drg" {
   compartment_id     = coalesce(var.network_compartment_id, local.compartment_id)
   drg_compartment_id = var.drg_compartment_id
 
-  drg_id              = one([var.drg_id]) # existing DRG ID or null
-  drg_display_name    = coalesce(var.drg_display_name, "oke-${local.state_id}")
-  drg_vcn_attachments = tobool(var.create_drg) ? { for k, v in module.vcn : k => {
+  drg_id           = one([var.drg_id]) # existing DRG ID or null
+  drg_display_name = coalesce(var.drg_display_name, "oke-${local.state_id}")
+  drg_vcn_attachments = tobool(var.create_drg) || var.drg_id ? { for k, v in module.vcn : k => {
     # gets the vcn_id values dynamically from the vcn module 
     vcn_id : v.vcn_id
     vcn_transit_routing_rt_id : null
